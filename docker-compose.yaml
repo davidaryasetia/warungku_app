@@ -1,15 +1,27 @@
-version : "3.10"
-
-services: 
-  warungku_app:   
+services:
+  backend-services:
     build:
-      context: . 
+      context: ./backend
       dockerfile: Dockerfile 
-    container_name: warungku_be_app
+    container_name: warungku_backend
     ports: 
       - "8000:8000"
-    volumes:
-      - .:/app
-    environment: 
-      - PYTHONUNBUFFERED=1
+    volumes: 
+      - ./Backend:/app
+    env_file:
+      - .env 
     restart: unless-stopped
+
+  frontend-services:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile 
+    container_name: warungku_frontend
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./Frontend:/app
+    environment:
+      - REACT_APP_API_URL=http://backend:8000
+    depends_on: 
+      - backend-services
