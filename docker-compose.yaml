@@ -1,7 +1,7 @@
 services:
   backend-services:
     build:
-      context: ./backend
+      context: ./Backend
       dockerfile: Dockerfile 
     container_name: warungku_backend
     ports: 
@@ -14,7 +14,7 @@ services:
 
   frontend-services:
     build:
-      context: ./frontend
+      context: ./Frontend
       dockerfile: Dockerfile 
     container_name: warungku_frontend
     ports:
