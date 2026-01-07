@@ -1,0 +1,15 @@
+version : "3.10"
+
+services: 
+  warungku_app:   
+    build:
+      context: . 
+      dockerfile: Dockerfile 
+    container_name: warungku_be_app
+    ports: 
+      - "8000:8000"
+    volumes:
+      - .:/app
+    environment: 
+      - PYTHONUNBUFFERED=1
+    restart: unless-stopped
