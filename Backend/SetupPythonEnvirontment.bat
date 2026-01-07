@@ -8,6 +8,8 @@ CALL "%cd%\venv\Scripts\activate.bat"
 @REM
 pip install  -r "%cd%\Document\requirements.txt"
 
+pip install -e . 
+
 Pause
 goto:eof
 

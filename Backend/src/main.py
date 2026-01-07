@@ -1,15 +1,34 @@
 from fastapi import FastAPI, Depends
-from models import Product
-from database import session, engine
-import database_models
+from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import RedirectResponse
+from src.models import Product
+from config.database import session, engine
+from src import database_models
 from sqlalchemy.orm import Session
 
-app = FastAPI()
+app = FastAPI(
+    title="Warungku Backend",
+    description="Playground with Fast-API Framework, and Devops CI/CD to develop simple warungku backend",
+    version="V.1"
+)
 
-@app.get("/")
-def first_api_test():
-    return "Test API"
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:3000"], 
+    allow_methods=["*"]
+)
 
+@app.get("/", include_in_schema=False)
+def redirect_to_docs(): 
+    return RedirectResponse(url="/docs")
+
+products = [
+    Product(id=1, name="phone", description="budget phone", price=99, quantity=10), 
+    Product(id=2, name="laptop", description="gaming laptop", price=999, quantity=6),
+    Product(id=3, name="camera", description="gaming laptop", price=999, quantity=6),
+    Product(id=4, name="Accessoris", description="gaming laptop", price=999, quantity=6),
+    Product(id=6, name="Powerbank", description="gaming laptop", price=999, quantity=6),
+]
 
 # Dependency Injection 
 def get_db():
@@ -55,7 +74,7 @@ def add_product(product: Product, db: Session = Depends(get_db)):
     db.commit()
     return product
 
-@app.put("/product")
+@app.put("/product/{id}")
 def update_product(id:int, product: Product, db: Session = Depends(get_db)):
     db_products = db.query(database_models.Product).filter(database_models.Product.id == id).first()
 
@@ -69,7 +88,7 @@ def update_product(id:int, product: Product, db: Session = Depends(get_db)):
     else: 
         return "No Product Found"
 
-@app.delete("/product")
+@app.delete("/product/{id}")
 def delete_product(id: int, db: Session = Depends(get_db)):
     db_products = db.query(database_models.Product).filter(database_models.Product.id == id).first()
 
