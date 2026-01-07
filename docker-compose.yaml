@@ -5,7 +5,7 @@ services:
       dockerfile: Dockerfile 
     container_name: warungku_backend
     ports: 
-      - "8000:8000"
+      - "8001:8000"
     volumes: 
       - ./Backend:/app
     env_file:
@@ -18,7 +18,7 @@ services:
       dockerfile: Dockerfile 
     container_name: warungku_frontend
     ports:
-      - "3000:3000"
+      - "3001:3000"
     volumes:
       - ./Frontend:/app
     environment:
