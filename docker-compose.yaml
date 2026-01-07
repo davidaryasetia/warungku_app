@@ -21,6 +21,7 @@ services:
       - "3001:3000"
     volumes:
       - ./Frontend:/app
+      - /app/node_modules
     environment:
       - REACT_APP_API_URL=http://backend-services:8000
     depends_on: 
