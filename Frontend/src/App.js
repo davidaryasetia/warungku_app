@@ -4,7 +4,7 @@ import "./App.css";
 import TaglineSection from "./TaglineSection";
 
 const api = axios.create({
-  baseURL: "http://localhost:8001",
+  baseURL: "https://warungku.backend.projectsdev.site/",
 });
 
 function App() {

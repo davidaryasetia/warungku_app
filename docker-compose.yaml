@@ -23,6 +23,10 @@ services:
       - ./Frontend:/app
       - /app/node_modules
     environment:
-      - REACT_APP_API_URL=http://backend-services:8000
+      - REACT_APP_API_URL=https://warungku.backend.projectsdev.site
+      - CHOKIDAR_USEPOLLING=true
+      - HOST=0.0.0.0
+      - WDS_SOCKET_PORT=0
+      - DANGEROUSLY_DISABLE_HOST_CHECK=true
     depends_on: 
       - backend-services

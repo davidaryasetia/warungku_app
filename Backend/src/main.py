@@ -12,11 +12,23 @@ app = FastAPI(
     version="V.1"
 )
 
+from fastapi.middleware.cors import CORSMiddleware
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000", "http://localhost:3001"], 
-    allow_methods=["*"]
+    allow_origins=[
+        "https://warungku.projectsdev.site",
+        "https://warungku.backend.projectsdev.site", 
+        "http://localhost:8001", 
+        "http://localhost:8000", 
+        "http://localhost:3000", 
+        "http://localhost:3001"
+    ],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
 )
+
 
 @app.get("/", include_in_schema=False)
 def redirect_to_docs(): 
