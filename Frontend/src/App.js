@@ -4,7 +4,7 @@ import "./App.css";
 import TaglineSection from "./TaglineSection";
 
 const api = axios.create({
-  baseURL: "https://warungku.backend.projectsdev.site/",
+  baseURL: "http://localhost:8001",
 });
 
 function App() {
@@ -199,7 +199,7 @@ function App() {
       <header className="topbar">
         <div className="brand">
           <span className="brand-badge">📦</span>
-          <h1>Warungku</h1>
+          <h1>Warungku - CI/CD Deployment test With Jenkins V.1</h1>
         </div>
         <div className="top-actions">
           <button className="btn btn-light" onClick={fetchProducts} disabled={loading}>
@@ -211,6 +211,7 @@ function App() {
       <div className="container">
         <div className="stats">
           <div className="chip">Total: {products.length}</div>
+          <div className="chip">CI/CD Deployment test with Jenkins - Active 🚀</div>
           <div className="search">
             <input
               type="text"
