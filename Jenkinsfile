@@ -47,14 +47,14 @@ pipeline {
                 }
             }
         }
-        // stage ("Clean up the jenkins server"){
-        //     steps {
-        //         sh "docker rmi ${BACKEND_IMAGE_NAME}:latest || true"
-        //         sh "docker rmi ${BACKEND_IMAGE_NAME}:${BUILD_NUMBER} || true"
-        //         sh "docker rmi ${FRONTEND_IMAGE_NAME}:latest || true"    
-        //         sh "docker rmi ${FRONTEND_IMAGE_NAME}:${BUILD_NUMBER} || true"
-        //     }
-        // }
+        stage ("Clean up the jenkins server"){
+            steps {
+                sh "docker rmi ${BACKEND_IMAGE_NAME}:latest || true"
+                sh "docker rmi ${BACKEND_IMAGE_NAME}:${BUILD_NUMBER} || true"
+                sh "docker rmi ${FRONTEND_IMAGE_NAME}:latest || true"    
+                sh "docker rmi ${FRONTEND_IMAGE_NAME}:${BUILD_NUMBER} || true"
+            }
+        }
         stage ("Deploy Pull Image and Start Images"){
             steps {
                 dir ("${APP_DIR}"){
