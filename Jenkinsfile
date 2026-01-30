@@ -38,10 +38,7 @@ pipeline {
         stage ("Push Image to Dockerhub"){
             steps {
                 script {
-                    docker.withRegistry("https://registry.hub.docker.com", DOCKER_HUB_CREDENTIAL){
-                        sh "docker tag ${BACKEND_IMAGE_NAME}:latest ${BACKEND_IMAGE_NAME}:${BUILD_NUMBER}"
-                        sh "docker tag ${FRONTEND_IMAGE_NAME}:latest ${FRONTEND_IMAGE_NAME}:${BUILD_NUMBER}" 
-
+                    docker.withRegistry("", DOCKER_HUB_CREDENTIAL){
                         backendImage.push("latest")
                         frontendImage.push("latest")
                         backendImage.push("${BUILD_NUMBER}")
