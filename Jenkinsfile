@@ -39,9 +39,11 @@ pipeline {
             steps {
                 script {
                     docker.withRegistry("https://registry.hub.docker.com", DOCKER_HUB_CREDENTIAL){
+                        sh "docker tag ${BACKEND_IMAGE_NAME}:latest ${BACKEND_IMAGE_NAME}:${BUILD_NUMBER}"
+                        sh "docker tag ${FRONTEND_IMAGE_NAME}:latest ${FRONTEND_IMAGE_NAME}:${BUILD_NUMBER}" 
+
                         backendImage.push("latest")
                         frontendImage.push("latest")
-
                         backendImage.push("${BUILD_NUMBER}")
                         frontendImage.push("${BUILD_NUMBER}")
                     }
@@ -50,10 +52,10 @@ pipeline {
         }
         stage ("Clean up the jenkins server"){
             steps {
-                sh "docker rmi ${BACKEND_IMAGE_NAME}:latest"
-                sh "docker rmi ${BACKEND_IMAGE_NAME}:${BUILD_NUMBER}"
-                sh "docker rmi ${FRONTEND_IMAGE_NAME}:latest"   
-                sh "docker rmi ${FRONTEND_IMAGE_NAME}:${BUILD_NUMBER}"
+                sh "docker rmi ${BACKEND_IMAGE_NAME}:latest || true"
+                sh "docker rmi ${BACKEND_IMAGE_NAME}:${BUILD_NUMBER} || true"
+                sh "docker rmi ${FRONTEND_IMAGE_NAME}:latest || true"    
+                sh "docker rmi ${FRONTEND_IMAGE_NAME}:${BUILD_NUMBER} || true"
             }
         }
         stage ("Deploy Pull Image and Start Images"){
