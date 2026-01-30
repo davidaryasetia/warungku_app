@@ -6,8 +6,8 @@ pipeline {
         DOCKER_FILE_NAME = "Dockerfile"
         DOCKER_HUB_CREDENTIAL = "DOCKER_HUB_CREDENTIAL"
 
-        BACKEND_IMAGE = "davidaryasetia/warungku-backend:latest"
-        FRONTEND_IMAGE = "davidaryasetia/warungku-frontend:latest"
+        BACKEND_IMAGE_NAME = "davidaryasetia/warungku-backend"
+        FRONTEND_IMAGE_NAME = "davidaryasetia/warungku-frontend"
     }
 
     stages {
@@ -24,14 +24,14 @@ pipeline {
         stage ("Build Backend Image"){
             steps {
                 script {
-                    backendImage = docker.build("${BACKEND_IMAGE}", "${APP_DIR}/Backend")
+                    backendImage = docker.build("${BACKEND_IMAGE_NAME}:latest", "${APP_DIR}/Backend")
                 }
             }
         }
         stage ("Build Frontend Image"){
             steps {
                 script {
-                    frontendImage = docker.build("${FRONTEND_IMAGE}", "${APP_DIR}/Frontend")
+                    frontendImage = docker.build("${FRONTEND_IMAGE_NAME}:latest", "${APP_DIR}/Frontend")
                 }
             }
         }
@@ -46,6 +46,14 @@ pipeline {
                         frontendImage.push("${BUILD_NUMBER}")
                     }
                 }
+            }
+        }
+        stage ("Clean up the jenkins server"){
+            steps {
+                sh "docker rmi ${BACKEND_IMAGE_NAME}:latest"
+                sh "docker rmi ${BACKEND_IMAGE_NAME}:${BUILD_NUMBER}"
+                sh "docker rmi ${FRONTEND_IMAGE_NAME}:latest"   
+                sh "docker rmi ${FRONTEND_IMAGE_NAME}:${BUILD_NUMBER}"
             }
         }
         stage ("Deploy Pull Image and Start Images"){
