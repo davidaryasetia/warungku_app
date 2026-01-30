@@ -16,7 +16,7 @@ services:
 
   frontend-services:
     container_name: ${PROJECT_NAME}-frontend
-    image: davidaryasetia/warungku-backend:latest
+    image: davidaryasetia/warungku-frontend:latest
     hostname: ${PROJECT_NAME}-frontend
     build:
       context: ./Frontend
