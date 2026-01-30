@@ -1,11 +1,12 @@
 services:
   backend-services:
+    container_name: ${PROJECT_NAME}-backend
+    hostname : ${PROJECT_NAME}
     build:
       context: ./Backend
       dockerfile: Dockerfile 
-    container_name: warungku_backend
     ports: 
-      - "8001:8000"
+      - "${BACKEND_PORT_MAP}:8000"
     volumes: 
       - ./Backend:/app
     env_file:
@@ -13,12 +14,13 @@ services:
     restart: unless-stopped
 
   frontend-services:
+    container_name: ${PROJECT_NAME}-frontend
+    hostname: ${PROJECT_NAME}-frontend
     build:
       context: ./Frontend
       dockerfile: Dockerfile 
-    container_name: warungku_frontend
     ports:
-      - "3001:3000"
+      - "${WEB_PORT_MAP}:3000"
     volumes:
       - ./Frontend:/app
       - /app/node_modules

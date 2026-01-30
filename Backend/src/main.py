@@ -7,7 +7,7 @@ from src import database_models
 from sqlalchemy.orm import Session
 
 app = FastAPI(
-    title="Warung Backend",
+    title="Warungku Backend Test CI/CD",
     description="Playground with Fast-API Framework, and Devops CI/CD to develop simple warungku backend",
     version="V.1"
 )
