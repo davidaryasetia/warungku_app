@@ -3,39 +3,57 @@ pipeline {
 
     environment {
         APP_DIR = '/var/www/warungku_app'
+        DOCKER_FILE_NAME = "Dockerfile"
+        DOCKER_HUB_CREDENTIAL = "DOCKER_HUB_CREDENTIAL"
+
+        BACKEND_IMAGE = "davidaryasetia/warungku-backend:latest"
+        FRONTEND_IMAGE = "davidaryasetia/warungku-frontend:latest"
     }
 
     stages {
-        stage ('Pulling From Github'){
+        stage ("Checkout Source Code"){
             steps {
-                sh ''' 
-                cd ${APP_DIR}
-                git config --global --add safe.directory '/var/www/warungku_app'
-                git pull origin main
-                '''
+                dir("${APP_DIR}"){
+                    sh """ 
+                    git config --global --add safe.directory ${APP_DIR}
+                    git pull origin main
+                    """
+                }
             }
         }
-        stage('Stop and remove container'){
+        stage ("Build Backend Image"){
             steps {
-                sh """ 
-                cd ${APP_DIR}
-                docker compose down --remove-orphans
-                """
+                script {
+                    backendImage = docker.build("${BACKEND_IMAGE}", "${APP_DIR}/backend")
+                }
             }
         }
-        stage('Rebuild the Docker images'){
-            steps { 
-                sh """ 
-                cd ${APP_DIR}
-                docker compose build
-                """
+        stage ("Build Frontend Image"){
+            steps {
+                script {
+                    frontendImage = docker.build("${FRONTEND_IMAGE}", "${APP_DIR}/frontend")
+                }
             }
         }
-        stage("Running the container"){
+        stage ("Push Image to Dockerhub"){
+            steps {
+                script {
+                    docker.withRegistry("https://registry.hub.docker.com", DOCKER_HUB_CREDENTIAL){
+                        backendImage.push("latest")
+                        frontendImage.push("latest")
+
+                        backendImage.push("${BUILD_NUMBER}")
+                        frontendImage.push("${BUILD_NUMBER}")
+                    }
+                }
+            }
+        }
+        stage ("Deploy Pull Image + Up images"){
             steps {
                 sh """ 
-                cd ${APP_DIR}
-                docker compose up -d 
+                docker compose down
+                docker compose pull
+                docker compose up -d  
                 """
             }
         }
