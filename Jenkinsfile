@@ -24,14 +24,14 @@ pipeline {
         stage ("Build Backend Image"){
             steps {
                 script {
-                    backendImage = docker.build("${BACKEND_IMAGE}", "${APP_DIR}/backend")
+                    backendImage = docker.build("${BACKEND_IMAGE}", "${APP_DIR}/Backend")
                 }
             }
         }
         stage ("Build Frontend Image"){
             steps {
                 script {
-                    frontendImage = docker.build("${FRONTEND_IMAGE}", "${APP_DIR}/frontend")
+                    frontendImage = docker.build("${FRONTEND_IMAGE}", "${APP_DIR}/Frontend")
                 }
             }
         }
