@@ -211,7 +211,7 @@ function App() {
       <div className="container">
         <div className="stats">
           <div className="chip">Total: {products.length}</div>
-          <div className="chip">CI/CD Deployment test with Jenkins - Active 🚀</div>
+          <div className="chip">CI/CD Deployment test with Jenkins - Active 🚀 - Test CICD Deployment</div>
           <div className="search">
             <input
               type="text"
