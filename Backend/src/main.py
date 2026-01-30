@@ -9,7 +9,7 @@ from sqlalchemy.orm import Session
 app = FastAPI(
     title="Warungku - Test CICD",
     description="Playground with Fast-API Framework, and Devops CI/CD to develop simple warungku backend",
-    version="V.2"
+    version="V.3"
 )
 
 from fastapi.middleware.cors import CORSMiddleware
