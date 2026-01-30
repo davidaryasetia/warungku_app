@@ -48,13 +48,15 @@ pipeline {
                 }
             }
         }
-        stage ("Deploy Pull Image + Up images"){
+        stage ("Deploy Pull Image and Start Images"){
             steps {
-                sh """ 
-                docker compose down
-                docker compose pull
-                docker compose up -d  
-                """
+                dir ("${APP_DIR}"){
+                    sh """ 
+                    docker compose down 
+                    docker compose pull 
+                    docker compose up -d 
+                    """
+                }
             }
         }
     }
